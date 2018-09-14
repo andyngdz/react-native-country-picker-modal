@@ -259,7 +259,7 @@ export default class CountryPicker extends Component {
     this.setState({ modalVisible: true })
   }
 
-  scrollTo(letter) {
+  scrollToOffset(letter) {
     // find position of first country that starts with letter
     const index = this.state.cca2List
       .map(country => this.getCountryName(countries[country])[0])
@@ -275,7 +275,7 @@ export default class CountryPicker extends Component {
     }
 
     // scroll
-    this._listView.scrollTo({
+    this._listView.scrollToOffset({
       y: position
     })
   }
@@ -284,7 +284,7 @@ export default class CountryPicker extends Component {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
 
-    this._listView.scrollTo({ y: 0 })
+    this._listView.scrollToOffset({ y: 0 })
 
     this.setState({
       filter: value,
@@ -308,7 +308,7 @@ export default class CountryPicker extends Component {
     return (
       <TouchableOpacity
         key={index}
-        onPress={() => this.scrollTo(letter)}
+        onPress={() => this.scrollToOffset(letter)}
         activeOpacity={0.6}
       >
         <View style={styles.letter}>
