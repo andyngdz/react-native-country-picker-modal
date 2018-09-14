@@ -412,10 +412,9 @@ export default class CountryPicker extends Component {
                   keyboardShouldPersistTaps="always"
                   enableEmptySections
                   ref={listView => (this._listView = listView)}
-                  dataSource={this.state.dataSource}
-                  renderRow={country => this.renderCountry(country)}
-                  initialListSize={30}
-                  pageSize={15}
+                  extraData={this.state}
+                  data={this.state.dataSource}
+                  renderItem={country => this.renderCountry(country)}
                   onLayout={({ nativeEvent: { layout: { y: offset } } }) =>
                     this.setVisibleListHeight(offset)
                   }
