@@ -292,14 +292,14 @@ export default class CountryPicker extends Component {
     })
   }
 
-  renderCountry(country, index) {
+  renderCountry({ item, index }) {
     return (
       <TouchableOpacity
         key={index}
-        onPress={() => this.onSelectCountry(country)}
+        onPress={() => this.onSelectCountry(item)}
         activeOpacity={0.99}
       >
-        {this.renderCountryDetail(country)}
+        {this.renderCountryDetail(item)}
       </TouchableOpacity>
     )
   }
@@ -368,6 +368,8 @@ export default class CountryPicker extends Component {
     )
   }
 
+  keyExtractor = ({ item, index }) => index.toString()
+
   render() {
     return (
       <View style={styles.container}>
@@ -414,6 +416,7 @@ export default class CountryPicker extends Component {
                   ref={listView => (this._listView = listView)}
                   extraData={this.state}
                   data={this.state.dataSource}
+                  keyExtractor={this.keyExtractor}
                   renderItem={country => this.renderCountry(country)}
                   onLayout={({ nativeEvent: { layout: { y: offset } } }) =>
                     this.setVisibleListHeight(offset)
