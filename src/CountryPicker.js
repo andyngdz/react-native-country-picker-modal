@@ -19,6 +19,7 @@ import {
 } from 'react-native'
 
 import Fuse from 'fuse.js'
+import { find } from "lodash"
 
 import cca2List from '../data/cca2'
 import { getHeightPercent } from './ratio'
@@ -259,24 +260,23 @@ export default class CountryPicker extends Component {
     this.setState({ modalVisible: true })
   }
 
+  /**
+   * When user click on letter on the right side. Scroll to that letter!
+   * @param {String} letter The letter that user want to scroll to it
+   */
   scrollToOffset(letter) {
-    // find position of first country that starts with letter
-    const index = this.state.cca2List
-      .map(country => this.getCountryName(countries[country])[0])
-      .indexOf(letter)
-    if (index === -1) {
+    // Find position of first country that starts with letter
+    const item = find(this.state.cca2List, (country) => {
+        return this.getCountryName(countries[country])[0] === letter
+    })
+
+    if (!item) {
       return
     }
-    let position = index * this.itemHeight
 
-    // do not scroll past the end of the list
-    if (position + this.visibleListHeight > this.listHeight) {
-      position = this.listHeight - this.visibleListHeight
-    }
-
-    // scroll
-    this._listView.scrollToOffset({
-      y: position
+    // Scroll
+    this._listView.scrollToItem({
+      item
     })
   }
 
@@ -284,7 +284,7 @@ export default class CountryPicker extends Component {
     const filteredCountries =
       value === '' ? this.state.cca2List : this.fuse.search(value)
 
-    this._listView.scrollToOffset({ y: 0 })
+    this._listView.scrollToOffset({ offset: 0 })
 
     this.setState({
       filter: value,
