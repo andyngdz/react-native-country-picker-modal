@@ -13,7 +13,7 @@ import {
   Modal,
   Text,
   TextInput,
-  ListView,
+  FlatList,
   ScrollView,
   Platform
 } from 'react-native'
@@ -81,6 +81,7 @@ export default class CountryPicker extends Component {
     flagType: PropTypes.oneOf(Object.values(FLAG_TYPES)),
     hideAlphabetFilter: PropTypes.bool,
     renderFilter: PropTypes.func,
+    renderCountryDetail: PropTypes.func,
     showCallingCode: PropTypes.bool,
     filterOptions: PropTypes.object
   }
@@ -322,7 +323,11 @@ export default class CountryPicker extends Component {
   }
 
   renderCountryDetail(cca2) {
+    const { renderCountryDetail } = this.props
     const country = countries[cca2]
+    if(renderCountryDetail) {
+      return renderCountryDetail(country, this.props)
+    }
     return (
       <View style={styles.itemCountry}>
         {CountryPicker.renderFlag(cca2)}
@@ -405,7 +410,7 @@ export default class CountryPicker extends Component {
             </View>
             <KeyboardAvoidingView behavior="padding">
               <View style={styles.contentContainer}>
-                <ListView
+                <FlatList
                   keyboardShouldPersistTaps="always"
                   enableEmptySections
                   ref={listView => (this._listView = listView)}
