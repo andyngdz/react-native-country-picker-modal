@@ -368,7 +368,7 @@ export default class CountryPicker extends Component {
     )
   }
 
-  keyExtractor = ({ item, index }) => index.toString()
+  keyExtractor = (item, index) => index.toString()
 
   render() {
     return (
