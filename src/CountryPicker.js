@@ -51,8 +51,6 @@ const setCountries = flagType => {
   }
 }
 
-const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-
 setCountries()
 
 export const getAllCountries = () =>
@@ -154,7 +152,7 @@ export default class CountryPicker extends Component {
     this.state = {
       modalVisible: false,
       cca2List: countryList,
-      dataSource: ds.cloneWithRows(countryList),
+      dataSource: countryList,
       filter: '',
       letters: this.getLetters(countryList)
     }
@@ -197,7 +195,7 @@ export default class CountryPicker extends Component {
     if (nextProps.countryList !== this.props.countryList) {
       this.setState({
         cca2List: nextProps.countryList,
-        dataSource: ds.cloneWithRows(nextProps.countryList)
+        dataSource: nextProps.countryList
       })
     }
   }
@@ -206,7 +204,7 @@ export default class CountryPicker extends Component {
     this.setState({
       modalVisible: false,
       filter: '',
-      dataSource: ds.cloneWithRows(this.state.cca2List)
+      dataSource: this.state.cca2List
     })
 
     this.props.onChange({
@@ -221,7 +219,7 @@ export default class CountryPicker extends Component {
     this.setState({
       modalVisible: false,
       filter: '',
-      dataSource: ds.cloneWithRows(this.state.cca2List)
+      dataSource: this.state.cca2List
     })
     if (this.props.onClose) {
       this.props.onClose()
@@ -290,7 +288,7 @@ export default class CountryPicker extends Component {
 
     this.setState({
       filter: value,
-      dataSource: ds.cloneWithRows(filteredCountries)
+      dataSource: filteredCountries
     })
   }
 
